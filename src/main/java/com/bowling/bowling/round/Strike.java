@@ -1,0 +1,29 @@
+package com.bowling.bowling.round;
+
+import com.bowling.bowling.enums.RoundType;
+import com.bowling.bowling.interfaces.Round;
+import com.bowling.bowling.util.ScoreWrapper;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class Strike extends AbstractRound {
+
+    public Strike(int roundId, RoundType roundType, int score, List<Integer> shoots) {
+        super(roundId, roundType, score, shoots);
+    }
+
+    @Override
+    public Round calculateRoundScore(LinkedList<Round> rounds) {
+        int score = this.getScore();
+        int scoreNext = rounds.get(this.getRoundId() + 1).shoots().get(0);
+        int scoreNextNext = rounds.get(this.getRoundId() + 2).shoots().get(0);
+        this.setScore(score + scoreNext + scoreNextNext);
+        return this;
+    }
+
+    @Override
+    public ScoreWrapper printRoundScore() {
+        return new ScoreWrapper(this.getScore(), "X", 1, this.getRoundType());
+    }
+}
